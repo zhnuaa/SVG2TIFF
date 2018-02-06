@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:SVG2TIFF"
         xmlns:StyxWPFControls="clr-namespace:StyxWPFControls;assembly=StyxWPFControls" x:Class="SVG2TIFF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Icon="ico.ico">
-    <Grid>
+        Title="MainWindow" Height="410.8" Width="525" Icon="ico.ico">
+    <Grid x:Name="_GridRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
             <RowDefinition Height="20*"/>
@@ -24,33 +24,31 @@
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="395*"/>
+            <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="76*"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="_List" Margin="0,0,0.4,-0.2" Grid.RowSpan="13">
+        <ListView x:Name="_List" Margin="0,0,0,-0.2" Grid.RowSpan="13" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" ItemsSource="{Binding SvgList}" SnapsToDevicePixels="True">
             <ListView.View>
-                <GridView>
+                <GridView AllowsColumnReorder="False">
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label x:Name="label" Grid.ColumnSpan="3" Content="SVG总数" Grid.Column="1" Margin="-0.4,0,0.4,0" VerticalContentAlignment="Bottom" Padding="5,5,5,3" VerticalAlignment="Center"/>
-        <Label x:Name="label1" Grid.ColumnSpan="3" Content="转换进度" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Bottom" Padding="5,5,5,2" Margin="-0.4,0,0.4,0" VerticalAlignment="Center"/>
-        <Button x:Name="_BTNOpen" Content="打开" Grid.Column="2" Grid.Row="9" Click="_BTNOpen_Click" Margin="-0.4,-0.4,0.4,0.4"/>
-        <Button x:Name="_BTNConvert" Content="转换" Grid.Column="2" Grid.Row="11" Margin="-0.4,-0.2,0.4,1.2" Click="_BTNConvert_Click"/>
-        <TextBox x:Name="_TBTotal" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True" Text="0" Margin="-0.4,0,0.4,0"/>
-        <TextBox x:Name="_TBProgress" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True" Text="0" Margin="-0.4,0,0.4,-0.2"/>
-        <Label x:Name="label2" Grid.ColumnSpan="3" Content="DPI" Grid.Column="1" Grid.Row="4" Padding="5,5,5,2" VerticalContentAlignment="Bottom" Margin="-0.4,0.2,0.4,-0.2"/>
+        <Label x:Name="label" Grid.ColumnSpan="3" Content="SVG总数" Margin="0" VerticalContentAlignment="Bottom" Padding="5,5,5,2" Grid.Column="2"/>
+        <Label x:Name="label1" Grid.ColumnSpan="4" Content="压缩格式" Grid.Row="4" VerticalContentAlignment="Bottom" Padding="5,5,5,2" Margin="7.396,0.4,0,0" Grid.Column="1"/>
+        <Button x:Name="_BTNOpen" Content="打开" Grid.Column="2" Grid.Row="9" Click="_BTNOpen_Click" Margin="19.74,0,0.4,0.4" Grid.ColumnSpan="2"/>
+        <Button x:Name="_BTNConvert" Content="转换" Grid.Column="2" Grid.Row="11" Margin="19.74,0.2,0.4,0.2" Click="_BTNConvert_Click" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="_TBTotal" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding SvgNum, Mode=OneWay}" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" Grid.Row="1" Grid.Column="2"/>
+        <Label x:Name="label2" Grid.ColumnSpan="3" Content="DPI" Grid.Row="2" Padding="5,5,5,2" VerticalContentAlignment="Bottom" Margin="0,0.2,0,0" Grid.Column="2"/>
 
-        <StyxWPFControls:DigitalBox x:Name="_DBDPI" Grid.ColumnSpan="3" Grid.Column="1" Margin="-0.4,0.2,0.4,-0.4" Grid.Row="5" Type="UnsignedInteger" Value="120"/>
-        <Label x:Name="label3" Grid.ColumnSpan="3" Content="输出格式" Grid.Column="1" Margin="-0.4,0.4,0.4,-0.4" Grid.Row="6" Padding="5,5,5,2" VerticalContentAlignment="Bottom"/>
-        <ComboBox x:Name="_CBFormat" Grid.ColumnSpan="3" Grid.Column="1" Margin="-0.4,0,0.4,0" Grid.Row="7" SelectedIndex="0">
-            <ComboBoxItem Content="TIFF"/>
-            <ComboBoxItem Content="PNG"/>
-            <ComboBoxItem Content="JPG"/>
-        </ComboBox>
+        <StyxWPFControls:DigitalBox x:Name="_DBDPI" Grid.ColumnSpan="3" Grid.Row="3" Type="UnsignedInteger" Value="120" Grid.Column="2"/>
+        <Label x:Name="label3" Grid.ColumnSpan="3" Content="输出格式" Grid.Row="6" Padding="5,5,5,2" VerticalContentAlignment="Bottom" Grid.Column="2"/>
+        <ComboBox x:Name="_CBFormat" Grid.ColumnSpan="3" Margin="0,0.2,0,1" Grid.Row="7" SelectedIndex="0" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" ItemsSource="{Binding Format}" Grid.Column="2"/>
+        <ComboBox x:Name="_CBCompress" Grid.ColumnSpan="4" Margin="7.396,0,0,0.4" Grid.Row="5" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" ItemsSource="{Binding Compress}" SelectedIndex="0" Grid.Column="1"/>
 
     </Grid>
 </Window>
