@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SVG2TIFF"
         xmlns:StyxWPFControls="clr-namespace:StyxWPFControls;assembly=StyxWPFControls" x:Class="SVG2TIFF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="410.8" Width="525" Icon="ico.ico">
+        Title="SVG2TIFF" Height="410.8" Width="525" Icon="ico.ico">
     <Grid x:Name="_GridRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>

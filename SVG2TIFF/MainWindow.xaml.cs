@@ -41,11 +41,11 @@ namespace SVG2TIFF
             };
             if (folderDialog.ShowDialog() == true) 
             {
-                selectFolder = folderDialog.SelectedPath;
-                SVGPath svgPath = new SVGPath();
+                selectFolder = folderDialog.SelectedPath;                
                 List<SVGPath> svgList = new List<SVGPath>();
-                foreach(var svg in System.IO.Directory.GetFiles(selectFolder, @"*.svg", System.IO.SearchOption.AllDirectories))
+                foreach (var svg in System.IO.Directory.GetFiles(selectFolder, @"*.svg", System.IO.SearchOption.AllDirectories))
                 {
+                    SVGPath svgPath = new SVGPath();
                     svgPath.Path = svg;
                     svgList.Add(svgPath);
                 }
