@@ -29,6 +29,7 @@ namespace SVG2TIFF
             InitializeComponent();
             data = new DataClass();
             _GridRoot.DataContext = data;
+            _List.DataContext = data;
         }
 
         private void _BTNOpen_Click(object sender, RoutedEventArgs e)
@@ -41,7 +42,14 @@ namespace SVG2TIFF
             if (folderDialog.ShowDialog() == true) 
             {
                 selectFolder = folderDialog.SelectedPath;
-                data.SvgList = System.IO.Directory.GetFiles(selectFolder, @"*.svg",System.IO.SearchOption.AllDirectories).ToList();
+                SVGPath svgPath = new SVGPath();
+                List<SVGPath> svgList = new List<SVGPath>();
+                foreach(var svg in System.IO.Directory.GetFiles(selectFolder, @"*.svg", System.IO.SearchOption.AllDirectories))
+                {
+                    svgPath.Path = svg;
+                    svgList.Add(svgPath);
+                }
+                data.SvgList = svgList;
             }
         }
 
@@ -54,7 +62,8 @@ namespace SVG2TIFF
                     Command = @"magick"
                 };
                 cmdBuilder.UpdateArgs("convert", "", "convert");
-                cmdBuilder.UpdateArgs("density", "-density", _DBDPI.Value.ToString());
+                if (_DBDPI.Value != 0) { cmdBuilder.UpdateArgs("density", "-density", _DBDPI.Value.ToString()); }
+                if (_DBWidth.Value != 0) { cmdBuilder.UpdateArgs("width", "-resize", _DBWidth.Value.ToString()); }
                 cmdBuilder.UpdateArgs("compress", "-compress", data.Compress[_CBCompress.SelectedIndex].ToLower());
                 string extName = data.Format[_CBFormat.SelectedIndex].ToLower();
                 CommandExcutor excutor = new CommandExcutor(cmdBuilder);
@@ -62,17 +71,17 @@ namespace SVG2TIFF
                 foreach(var svg in data.SvgList)
                 {
                     TaskbarManager.Instance.SetProgressValue(count, data.SvgNum);
-                    string outputName = System.IO.Path.ChangeExtension(svg,extName);
-                    cmdBuilder.UpdateArgs("input", "", svg, true);
+                    string outputName = System.IO.Path.ChangeExtension(svg.Path,extName);
+                    cmdBuilder.UpdateArgs("input", "", svg.Path, true);
                     cmdBuilder.UpdateArgs("output", "", outputName, true);                    
                     //MessageBox.Show(excutor.CommandCB.Command);
                     //MessageBox.Show(excutor.CommandCB.GetString());
                     excutor.Excute();
                     count++;
                 }
-                data.SvgList = new List<string>();
+                data.SvgList = new List<SVGPath>();
                 TaskbarManager.Instance.SetProgressValue(0, 1);
-                MessageBox.Show("转换完成!");
+                MessageBox.Show(this,"转换完成!");
             }
         }
     }
@@ -80,8 +89,8 @@ namespace SVG2TIFF
     public class DataClass : System.ComponentModel.INotifyPropertyChanged
     {
 
-        private List<string> svgList;
-        public List<string> SvgList
+        private List<SVGPath> svgList;
+        public List<SVGPath> SvgList
         {
             get { return svgList; }
             set
@@ -93,13 +102,13 @@ namespace SVG2TIFF
         }
         public int SvgNum { get { return svgList.Count; } }
 
-        public List<string> Compress { get { return new List<string> { @"LZW", @"None", @"RLE", @"Zip", @"B44", @"LZMA", @"B44A", @"BZip", @"DXT1", @"DXT3", @"DXT5", @"Fax", @"Group4", @"JBIG1", @"JBIG2", @"JPEG", @"JPEG2000", @"Lossless", @"LosslessJPEG", @"Piz", @"Pxr24", @"RunlengthEncoded", @"ZipS" }; } }
+        public List<string> Compress { get { return new List<string> { @"LZW", @"None", @"RLE", @"Zip", @"Fax", @"Group4", @"JPEG", @"JPEG2000", @"RunlengthEncoded" }; } }
         public List<string> Format { get { return new List<string>() { @"TIFF", @"PNG", @"JPG" }; } }
 
         //构造函数
         public DataClass()
         {
-            SvgList = new List<string>();
+            SvgList = new List<SVGPath>();
         }
         //注册属性改变事件，便于通告属性改变
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -108,6 +117,13 @@ namespace SVG2TIFF
             PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(prop));
         }
     }
-
+    public class SVGPath
+    {
+        public string Path { get; set; }
+        public SVGPath()
+        {
+            Path = string.Empty;
+        }
+    }
 
 }
