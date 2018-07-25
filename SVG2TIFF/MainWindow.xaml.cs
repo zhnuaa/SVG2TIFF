@@ -74,6 +74,7 @@ namespace SVG2TIFF
                 cmdBuilder.UpdateArgs("compress", "-compress", data.Compress[_CBCompress.SelectedIndex].ToLower());
                 cmdBuilder.UpdateArgs("type", "-type", "TrueColor");
                 cmdBuilder.UpdateArgs("colorspace", "-colorspace", "RGB");
+                cmdBuilder.UpdateArgs("depth", "-depth", "8");
                 string extName = data.FormatOut[_CBFormat.SelectedIndex].ToLower();
                 CommandExcutor excutor = new CommandExcutor(cmdBuilder);
                 int count = 1;
