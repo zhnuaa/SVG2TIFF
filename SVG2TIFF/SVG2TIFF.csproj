@@ -121,5 +121,10 @@
   <ItemGroup>
     <Resource Include="ico.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="magick.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
