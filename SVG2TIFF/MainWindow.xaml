@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SVG2TIFF"
         xmlns:StyxWPFControls="clr-namespace:StyxWPFControls;assembly=StyxWPFControls" x:Class="SVG2TIFF.MainWindow"
         mc:Ignorable="d"
-        Title="SVG2TIFF" Height="450" Width="525" Icon="ico.ico">
+        Title="Image2TIFF" Height="450" Width="525" Icon="ico.ico">
     <Grid x:Name="_GridRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
@@ -37,7 +37,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="_List" Margin="0,0,0.4,-0.4" Grid.RowSpan="17" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"  ItemsSource="{Binding ImageList}" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" AutoGenerateColumns="False" FontSize="14" HorizontalGridLinesBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" VerticalGridLinesBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="Horizontal" >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path}" ClipboardContentBinding="{x:Null}" Header="SVG路径" IsReadOnly="True" FontSize="14"/>
+                <DataGridTextColumn Binding="{Binding Path}" ClipboardContentBinding="{x:Null}" Header="图片路径" IsReadOnly="True" FontSize="14"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -48,12 +48,12 @@
         <TextBox x:Name="_TBTotal" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding ImageNum, Mode=OneWay}" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" Grid.Row="1" Grid.Column="2" Margin="0"/>
         <Label x:Name="label2" Grid.ColumnSpan="3" Content="DPI" Grid.Row="2" Padding="5,5,5,2" VerticalContentAlignment="Bottom" Margin="0" Grid.Column="2"/>
 
-        <StyxWPFControls:DigitalBox x:Name="_DBDPI" Grid.ColumnSpan="3" Grid.Row="3" Type="UnsignedInteger" Value="120" Grid.Column="2" Margin="0.2,0.4,-0.2,0.4"/>
+        <StyxWPFControls:DigitalBox_INT x:Name="_DBDPI" Grid.ColumnSpan="3" Grid.Row="3"  Value="120" Grid.Column="2" Margin="0.2,0.4,-0.2,0.4" Maximum="30000" Minimum="5"/>
         <Label x:Name="label3" Grid.ColumnSpan="3" Content="输出格式" Grid.Row="8" Padding="5,5,5,2" VerticalContentAlignment="Bottom" Grid.Column="2" Margin="0"/>
         <ComboBox x:Name="_CBFormat" Grid.ColumnSpan="3" Margin="0" Grid.Row="9" SelectedIndex="0" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" ItemsSource="{Binding FormatOut}" Grid.Column="2"/>
         <ComboBox x:Name="_CBCompress" Grid.ColumnSpan="3" Margin="0" Grid.Row="7" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" ItemsSource="{Binding Compress}" SelectedIndex="0" Grid.Column="2"/>
         <Label x:Name="label4" Grid.ColumnSpan="3" Content="输出宽度" Grid.Column="2" Margin="0" Grid.Row="4" Padding="5,5,5,2" VerticalContentAlignment="Bottom"/>
-        <StyxWPFControls:DigitalBox x:Name="_DBWidth" Grid.ColumnSpan="3" Grid.Column="2" Margin="-0.4,0,0.4,0" Grid.Row="5" Type="UnsignedInteger" Value="1200" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <StyxWPFControls:DigitalBox_INT x:Name="_DBWidth" Grid.ColumnSpan="3" Grid.Column="2" Margin="-0.4,0,0.4,0" Grid.Row="5"  Value="1200" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Minimum="50"/>
         <Label x:Name="label5" Grid.ColumnSpan="3" Content="输入格式" Grid.Column="2" Margin="-0.4,-0.4,0.4,0" Grid.Row="10" VerticalContentAlignment="Bottom" Height="25" VerticalAlignment="Top"/>
         <ComboBox x:Name="_CBFormatIn" Grid.ColumnSpan="3" Margin="0" Grid.Row="11" SelectedIndex="0" d:DataContext="{d:DesignInstance {x:Type local:DataClass}}" ItemsSource="{Binding FormatIn}" Grid.Column="2" Padding="6,3,3,3"/>
 
