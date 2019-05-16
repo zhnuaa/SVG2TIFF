@@ -3,6 +3,7 @@ using Ookii.Dialogs.Wpf;
 using StyxFunctions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -64,17 +65,17 @@ namespace SVG2TIFF
                 {
                     Command = @"magick"
                 };
-                cmdBuilder.UpdateArgs("convert", "", "convert");
+                cmdBuilder.UpdateInputArgs("convert", "", "convert");
                 if (_DBDPI.Value != 0)
                 {
-                    cmdBuilder.UpdateArgs("density", "-density", _DBDPI.Value.ToString());
-                    cmdBuilder.UpdateArgs("unit", "-units", "PixelsPerInch");
+                    cmdBuilder.UpdateInputArgs("density", "-density", _DBDPI.Value.ToString());
+                    cmdBuilder.UpdateInputArgs("unit", "-units", "PixelsPerInch");
                 }
-                if (_DBWidth.Value != 0) { cmdBuilder.UpdateArgs("width", "-resize", _DBWidth.Value.ToString()); }
-                cmdBuilder.UpdateArgs("compress", "-compress", data.Compress[_CBCompress.SelectedIndex].ToLower());
-                cmdBuilder.UpdateArgs("type", "-type", "TrueColor");
-                cmdBuilder.UpdateArgs("colorspace", "-colorspace", "RGB");
-                cmdBuilder.UpdateArgs("depth", "-depth", "8");
+                if (_DBWidth.Value != 0) { cmdBuilder.UpdateInputArgs("width", "-resize", _DBWidth.Value.ToString()); }
+                cmdBuilder.UpdateInputArgs("compress", "-compress", data.Compress[_CBCompress.SelectedIndex].ToLower());
+                cmdBuilder.UpdateInputArgs("type", "-type", "TrueColor");
+                cmdBuilder.UpdateInputArgs("colorspace", "-colorspace", "RGB");
+                cmdBuilder.UpdateInputArgs("depth", "-depth", "8");
                 string extName = data.FormatOut[_CBFormat.SelectedIndex].ToLower();
                 CommandExcutor excutor = new CommandExcutor(cmdBuilder);
                 int count = 1;
@@ -82,10 +83,10 @@ namespace SVG2TIFF
                 {
                     TaskbarManager.Instance.SetProgressValue(count, data.ImageNum);
                     string outputName = System.IO.Path.ChangeExtension(image.Path,extName);
-                    cmdBuilder.UpdateArgs("input", "", image.Path, true);
-                    cmdBuilder.UpdateArgs("output", "", outputName, true);
+                    cmdBuilder.UpdateInput("input", "", image.Path, true);
+                    cmdBuilder.UpdateOutput("output", "", outputName, true);
                     //MessageBox.Show(excutor.CommandCB.Command);
-                    Console.WriteLine(excutor.CommandCB.GetString());
+                    Debug.WriteLine(excutor.CommandCB.GetFullCmdString());
                     excutor.Excute();
                     count++;
                 }
